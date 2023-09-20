@@ -3,9 +3,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
-from models.base_model import Base
+from sqlalchemy.ext.declarative import declarative_base
+Base = declarative_base()
 from models import base_model
-from models import City, State
+from models.city import City
+from models.state import State
+from models.base_model import BaseModel
 
 class DBStorage:
 	"""Database Storage class"""
@@ -16,13 +19,12 @@ class DBStorage:
 		"""Initialize a new DBStorage instance."""
 		self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
 						getenv("HBNB_MYSQL_USER"),
-						getenv("HBNB_MYSQL_PWD")
+						getenv("HBNB_MYSQL_PWD"),
 						getenv("HBNB_MYSQL_HOST"),
 						getenv("HBNB_MYSQL_DB")),
 							pool_pre_ping=True)
-        if getenv("HBNB_ENV") == "test":
-            Base.metadata.drop_all(self.__engine)
-
+		if getenv("HBNB_ENV") == "test":
+			Base.metadata.drop_all(self.__engine)
 
 	def all(self, cls=None):
 		"""Query all objects in the database"""
