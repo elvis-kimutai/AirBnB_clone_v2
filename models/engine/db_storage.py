@@ -3,8 +3,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
+from models.base_model import Base
 from sqlalchemy.ext.declarative import declarative_base
-Base = declarative_base()
 from models import base_model
 from models.city import City
 from models.state import State
