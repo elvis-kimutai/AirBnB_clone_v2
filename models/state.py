@@ -4,18 +4,16 @@ from models.base_model import BaseModel
 from models.city import City
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-import models
+from models.base_model import Base
+#import models
 import os
 
-class State(BaseModel):
-    """The state class, contains name"""
-    __tablename__ = "states"  # Represents the table name in the database
-
-    name = Column(String(128), nullable=False)  # Column for state name
-
-    # For DBStorage
-    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        cities = relationship("City", back_populates="state", cascade="all, delete-orphan")
+class State(BaseModel, Base):
+    """ State class """
+    __tablename__ = "states"
+    name = Column(String(128), nullable=False)
+    cities = relationship("City", backref='state',
+                          cascade='all, delete, delete-orphan')
 
     # For FileStorage
     @property

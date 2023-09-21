@@ -2,7 +2,9 @@
 """Review Module for HBNB project"""
 from models.base_model import BaseModel
 from sqlalchemy import Column, String, ForeignKey
-class Review(BaseModel):
+from models.base_model import Base
+
+class Review(BaseModel, Base):
     """A review of a place"""
     __tablename__ = "reviews"
 
